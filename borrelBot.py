@@ -21,7 +21,7 @@ def callback_start_barco(bot, update, job_queue):
 		bot.sendMessage(chat_id=update.message.chat_id, text="You are not a bot admin")
 	else:
 		callback_reminder_weekly(bot, update, job_queue, ['thursday', '9:00', 'Check of de fusten koud liggen!'])
-		callback_reminder_weekly(bot, update, job_queue, ['thursday', '13:00', 'Ijsmachine klaar zetten!'])
+		callback_reminder_weekly(bot, update, job_queue, ['thursday', '13:00', 'IJsmachine klaar zetten!'])
 		callback_reminder_weekly(bot, update, job_queue, ['thursday', '17:00', 'Zijn alle fusten geteld?'])
 		callback_reminder_weekly(bot, update, job_queue, ['thursday', '21:25', 'Over 5 min laatste ronde!'])
 
