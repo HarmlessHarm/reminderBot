@@ -41,24 +41,24 @@ def callback_timer(bot, update, job_queue, args):
 	next_t = time2datetime(time)
 	# print(datetime.datetime.now())
 
-	interval = datetime.timedelta(minutes=1)
+	interval = datetime.timedelta(weeks=1)
 	print(interval)
 
 	bot.sendMessage(chat_id=update.message.chat_id, text='Setting a timer @'+str(time))
 
-	job_alarm = Job(callback_alarm, interval, days=(0,1,2,3,4,5,6), repeat=True, context=job_context)
+	job_alarm = Job(callback_alarm, interval, repeat=True, context=job_context)
 	print('created job')
 	job_queue.put(job_alarm, next_t=next_t)
 	print('put in queue')
 
-def call_stop_jobqueue(bot, update, job_queue):
+def callback_stop_jobqueue(bot, update, job_queue):
 	job_queue.stop()
 	bot.sendMessage(chat_id=update.message.chat_id, text='Stopped jobqueue')
 
 timer_handler = CommandHandler('timer', callback_timer, pass_job_queue=True, pass_args=True)
 u.dispatcher.add_handler(timer_handler)
 
-stop_handler = CommandHandler('stop', call_stop_jobqueue, pass_job_queue=True)
+stop_handler = CommandHandler('stop', callback_stop_jobqueue, pass_job_queue=True)
 u.dispatcher.add_handler(stop_handler)
 
 u.start_polling()
