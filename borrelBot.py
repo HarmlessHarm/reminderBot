@@ -72,7 +72,8 @@ def callback_get_speciaalbier(bot, update):
 	if text == "":
 		text = "Vandaag hebben we geen speciaalbier op de tap :("
 	now = dattime.datetime.today()
-	if not chatId in cooldown or now - cooldown[chatId] > 60:
+	print(now)
+	if not chatId in cooldown or (now - cooldown[chatId]).total_seconds() > 60:
 		bot.sendMessage(chat_id=chatId, text=text)
 		cooldown[chatId] = now
 		print(cooldown)
