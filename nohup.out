@@ -1,6 +1,0 @@
-Traceback (most recent call last):
-  File "borrelBot.py", line 1, in <module>
-    from telegram.ext import CommandHandler, Updater, Job, JobQueue
-ImportError: No module named 'telegram'
-started polling
-stopped
