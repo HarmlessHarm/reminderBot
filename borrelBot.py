@@ -28,7 +28,7 @@ def isVia(bot, update):
 
 def getSpeciaalbierText():
 	with open('speciaalbier', 'r') as f:
-		line = readLine()
+		line = f.readline()
 		if line != "":
 			text = " Vandaag hebben we "+ line +" op de tap!"
 			return text
@@ -120,8 +120,7 @@ def callback_stop_jobqueue(bot, update, job_queue):
 def callback_get_chatinfo(bot, update):
 	if isAdmin(bot, update):
 		speciaalbierText = getSpeciaalbierText()
-		print(speciaalbierText)
-		text = 'chat_id = %s speciaalbier = %s' % (update.message.chat_id, speciaalbierText)
+		text = 'chat_id = %s \n speciaalbier = %s' % (update.message.chat_id, speciaalbierText)
 		bot.sendMessage(chat_id=update.message.chat_id, text=text)
 
 
