@@ -36,11 +36,12 @@ def callback_start_test(bot, update, job_queue):
 		callback_reminder_weekly(bot, update, job_queue, ['tuesday', '15:35', 'TEST TEST TEST'])
 
 def callback_set_speciaalbier(bot, update, args):
-	if isAdmin(bot, update):
+	if isBarco(bot, update):
 		print(args)
 		with open('speciaalbier', 'w') as f:
 			text = ' '.join(args)
 			f.write(text)
+			print(update.message.chat_id)
 			bot.sendMessage(chat_id=update.message.chat_id, text='Set speciaalbier to: '+text)
 
 
