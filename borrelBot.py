@@ -15,6 +15,11 @@ def isAdmin(bot, update):
 	else:
 		return True
 
+def isBarco(bot, update):
+	if update.message.chat_id == -234559880:
+		return True
+	return False
+
 # Helper function to add reminders for barco chat
 def callback_start_barco(bot, update, job_queue):
 	if isAdmin(bot, update):
@@ -36,11 +41,11 @@ def callback_start_test(bot, update, job_queue):
 		callback_reminder_weekly(bot, update, job_queue, ['tuesday', '15:35', 'TEST TEST TEST'])
 
 def callback_set_speciaalbier(bot, update, args):
-	if isAdmin(bot, update):
-		print(update.message.chat_id)
+	if isBarco(bot, update) or isAdmin(bot, update):
 		with open('speciaalbier', 'w') as f:
 			text = ' '.join(args)
 			f.write(text)
+			print(update.message.chat_id)
 			bot.sendMessage(chat_id=update.message.chat_id, text='Set speciaalbier to: '+text)
 
 
@@ -97,6 +102,13 @@ def callback_stop_jobqueue(bot, update, job_queue):
 		job_queue.stop()
 		bot.sendMessage(chat_id=update.message.chat_id, text='Stopped all jobs')
 
+def callback_get_chatinfo(bot, update):
+	if isAdmin(bot, update):
+		text = '''
+			chat_id = %s
+		'''
+		bot.sendMessage(chat_id=update.message.chat_id, text=text)
+
 
 start_barco_handler = CommandHandler('startBarco', callback_start_barco, pass_job_queue=True)
 u.dispatcher.add_handler(start_barco_handler)
@@ -109,6 +121,9 @@ u.dispatcher.add_handler(start_test_handler)
 
 set_speciaalbier_handler = CommandHandler('setSpeciaal', callback_set_speciaalbier, pass_args=True)
 u.dispatcher.add_handler(set_speciaalbier_handler)
+
+get_chatinfo_handler = CommandHandler('getInfo', callback_get_chatinfo)
+u.dispatcher.add_handler(get_chatinfo_handler)
 
 # weekly_reminder_handler = CommandHandler('weekly', callback_reminder_weekly, pass_job_queue=True, pass_args=True)
 # u.dispatcher.add_handler(weekly_reminder_handler)
