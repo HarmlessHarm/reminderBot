@@ -37,7 +37,7 @@ def callback_start_test(bot, update, job_queue):
 
 def callback_set_speciaalbier(bot, update, args):
 	if isAdmin(bot, update):
-		print args
+		print(args)
 		with open('speciaalbier', 'w') as f:
 			f.write(' '.join(args))
 
