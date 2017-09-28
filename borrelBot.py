@@ -8,17 +8,30 @@ u = Updater(token=token)
 
 weekdays = {'monday': 0, 'tuesday': 1, 'wednesday': 2, 'thursday': 3, 'friday': 4, 'saturday': 5, 'sunday': 6}
 HARM = 18051322
+BARCO_CHAT = -234559880
+VIA_CHAT = -1407870
 
 def isAdmin(bot, update):
-	if update.message.from_user.id != HARM:
-		return False
-	else:
-		return True
-
-def isBarco(bot, update):
-	if update.message.chat_id == -234559880:
+	if update.message.from_user.id == HARM:
 		return True
 	return False
+
+def isBarco(bot, update):
+	if update.message.chat_id == BARCO_CHAT:
+		return True
+	return False
+
+def isVia(bot, update):
+	if update.message.chat_id == VIA_CHAT:
+		return True
+	return False
+
+def getSpeciaalbierText():
+	with open('speciaalbier', 'r') as f:
+		line = readLine()
+		if line != "":
+			text = " Vandaag hebben we "+ line +" op de tap!"
+			return text
 
 # Helper function to add reminders for barco chat
 def callback_start_barco(bot, update, job_queue):
@@ -32,6 +45,8 @@ def callback_start_barco(bot, update, job_queue):
 # Helper function to add reminders for via chat
 def callback_start_viachat(bot, update, job_queue):
 	if isAdmin(bot, update):
+		speciaalbierText = getSpeciaalbierText();
+		print(speciaalbierText)
 		callback_reminder_weekly(bot, update, job_queue, ['thursday', '17:00', 'Het is tijd om te borrelen!!'])
 		callback_reminder_weekly(bot, update, job_queue, ['thursday', '21:30', 'DE LAATSTE RONDE!!'])
 
@@ -106,8 +121,9 @@ def callback_get_chatinfo(bot, update):
 	if isAdmin(bot, update):
 		print(update.message)
 		text = '''
-			chat_id = %s
-		''' % update.message.chat_id
+			chat_id = %s \n
+			speciaalbier = %s
+		''' % (update.message.chat_id, getSpeciaalbierText())
 		bot.sendMessage(chat_id=update.message.chat_id, text=text)
 
 
