@@ -106,7 +106,7 @@ def callback_get_chatinfo(bot, update):
 	if isAdmin(bot, update):
 		text = '''
 			chat_id = %s
-		'''
+		''' % update.message.chat_id
 		bot.sendMessage(chat_id=update.message.chat_id, text=text)
 
 
