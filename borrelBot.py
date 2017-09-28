@@ -20,6 +20,7 @@ def callback_start_barco(bot, update, job_queue):
 	if isAdmin(bot, update):
 		callback_reminder_weekly(bot, update, job_queue, ['thursday', '9:00', 'Check of de fusten koud liggen!'])
 		callback_reminder_weekly(bot, update, job_queue, ['thursday', '13:00', 'IJsmachine klaar zetten!'])
+		callback_reminder_weekly(bot, update, job_queue, ['thursday', '16:00', 'Set speciaalbier opties (/setSpeciaal <speciaalbier>)'])
 		callback_reminder_weekly(bot, update, job_queue, ['thursday', '17:00', 'Zijn alle fusten geteld?'])
 		callback_reminder_weekly(bot, update, job_queue, ['thursday', '21:25', 'Over 5 min laatste ronde!'])
 
@@ -33,6 +34,13 @@ def callback_start_viachat(bot, update, job_queue):
 def callback_start_test(bot, update, job_queue):
 	if isAdmin(bot, update):
 		callback_reminder_weekly(bot, update, job_queue, ['tuesday', '15:35', 'TEST TEST TEST'])
+
+def callback_set_speciaalbier(bot, update, args):
+	if isAdmin(bot, update):
+		print args
+		with open('speciaalbier', 'w') as f:
+			f.write(' '.join(args))
+
 
 # Main function to set a weekly reminder
 def callback_reminder_weekly(bot, update, job_queue, args):
@@ -96,6 +104,9 @@ u.dispatcher.add_handler(start_viachat_handler)
 
 start_test_handler = CommandHandler('startTest', callback_start_test, pass_job_queue=True)
 u.dispatcher.add_handler(start_test_handler)
+
+set_speciaalbier_handler = CommandHandler('setSpeciaal', callback_set_speciaalbier, pass_args=True)
+u.dispatcher.add_handler(set_speciaalbier_handler)
 
 # weekly_reminder_handler = CommandHandler('weekly', callback_reminder_weekly, pass_job_queue=True, pass_args=True)
 # u.dispatcher.add_handler(weekly_reminder_handler)
