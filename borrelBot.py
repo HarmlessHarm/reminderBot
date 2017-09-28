@@ -11,6 +11,8 @@ HARM = 18051322
 BARCO_CHAT = -234559880
 VIA_CHAT = -1407870
 
+cooldown = {}
+
 def isAdmin(bot, update):
 	if update.message.from_user.id == HARM:
 		return True
@@ -48,8 +50,7 @@ def callback_start_barco(bot, update, job_queue):
 def callback_start_viachat(bot, update, job_queue):
 	if isAdmin(bot, update):
 		speciaalbierText = getSpeciaalbierText();
-		print(speciaalbierText)
-		callback_reminder_weekly(bot, update, job_queue, ['thursday', '17:00', 'Het is tijd om te borrelen!!'])
+		callback_reminder_weekly(bot, update, job_queue, ['thursday', '17:00', 'Het is tijd om te borrelen!!'+speciaalbierText])
 		callback_reminder_weekly(bot, update, job_queue, ['thursday', '21:30', 'DE LAATSTE RONDE!!'])
 
 # Test helper funciton
@@ -67,9 +68,13 @@ def callback_set_speciaalbier(bot, update, args):
 
 def callback_get_speciaalbier(bot, update):
 	text = getSpeciaalbierText()
+	chatId = update.message.chat_id
 	if text == "":
 		text = "Vandaag hebben we geen speciaalbier op de tap :("
-	bot.sendMessage(chat_id=update.message.chat_id, text=text)
+	if not chatId in cooldown or cooldown[chatId] > 60:
+		bot.sendMessage(chat_id=chatId, text=text)
+		cooldown[chatId] = datetime.datetime.today()
+
 
 # Main function to set a weekly reminder
 def callback_reminder_weekly(bot, update, job_queue, args):
