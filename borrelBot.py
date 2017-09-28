@@ -37,7 +37,8 @@ def callback_start_test(bot, update, job_queue):
 	if update.message.from_user.id != HARM:
 		bot.sendMessage(chat_id=update.message.chat_id, text="You are not a bot admin")
 	else:
-		callback_reminder_weekly(bot, update, job_queue, ['sunday', '19:48:30', 'TEST TEST TEST'])
+		print("Admin rights!")
+		callback_reminder_weekly(bot, update, job_queue, ['tuesday', '15:35', 'TEST TEST TEST'])
 
 def callback_reminder_weekly(bot, update, job_queue, args):
 	if update.message.from_user.id!= HARM:
