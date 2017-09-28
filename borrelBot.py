@@ -105,8 +105,11 @@ def callback_stop_jobqueue(bot, update, job_queue):
 def callback_get_chatinfo(bot, update):
 	if isAdmin(bot, update):
 		text = '''
-			chat_id = %s
-		''' % update.message.chat_id
+			chat.name = %s \n
+			chat_id = %s \n
+			from_user.name = %s \n
+			from_user.id = %s
+		''' % update.message.chat.name, update.message.chat_id, update.message.from_user.name, update.message.from_user.id
 		bot.sendMessage(chat_id=update.message.chat_id, text=text)
 
 
