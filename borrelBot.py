@@ -39,7 +39,9 @@ def callback_set_speciaalbier(bot, update, args):
 	if isAdmin(bot, update):
 		print(args)
 		with open('speciaalbier', 'w') as f:
-			f.write(' '.join(args))
+			text = ' '.join(args)
+			f.write(text)
+			bot.sendMessage(chat_id=update.message.chat_id, text='Set speciaalbier to: '+text)
 
 
 # Main function to set a weekly reminder
