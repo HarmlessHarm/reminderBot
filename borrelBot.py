@@ -43,6 +43,7 @@ def callback_start_barco(bot, update, job_queue):
 		callback_reminder_weekly(bot, update, job_queue, ['thursday', '9:00', 'Check of de fusten koud liggen!'])
 		callback_reminder_weekly(bot, update, job_queue, ['thursday', '13:00', 'IJsmachine klaar zetten!'])
 		callback_reminder_weekly(bot, update, job_queue, ['thursday', '16:00', 'Set speciaalbier opties (/setSpeciaal <speciaalbier>)'])
+		callback_reminder_weekly(bot, update, job_queue, ['thursday', '16:00', '/setSpeciaal'])
 		callback_reminder_weekly(bot, update, job_queue, ['thursday', '17:00', 'Zijn alle fusten geteld?'])
 		callback_reminder_weekly(bot, update, job_queue, ['thursday', '21:25', 'Over 5 min laatste ronde!'])
 
@@ -63,7 +64,6 @@ def callback_set_speciaalbier(bot, update, args):
 		with open('speciaalbier', 'w') as f:
 			text = ' '.join(args)
 			f.write(text)
-			print(update.message.chat_id)
 			bot.sendMessage(chat_id=update.message.chat_id, text='Set speciaalbier to: '+text)
 
 def callback_get_speciaalbier(bot, update):
@@ -71,9 +71,11 @@ def callback_get_speciaalbier(bot, update):
 	chatId = update.message.chat_id
 	if text == "":
 		text = "Vandaag hebben we geen speciaalbier op de tap :("
-	if not chatId in cooldown or cooldown[chatId] > 60:
+	now = dattime.datetime.today()
+	if not chatId in cooldown or now - cooldown[chatId] > 60:
 		bot.sendMessage(chat_id=chatId, text=text)
-		cooldown[chatId] = datetime.datetime.today()
+		cooldown[chatId] = now
+		print(cooldown)
 
 
 # Main function to set a weekly reminder
