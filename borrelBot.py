@@ -32,6 +32,8 @@ def getSpeciaalbierText():
 		if line != "":
 			text = " Vandaag hebben we "+ line +" op de tap!"
 			return text
+		else:
+			return ""
 
 # Helper function to add reminders for barco chat
 def callback_start_barco(bot, update, job_queue):
@@ -63,6 +65,11 @@ def callback_set_speciaalbier(bot, update, args):
 			print(update.message.chat_id)
 			bot.sendMessage(chat_id=update.message.chat_id, text='Set speciaalbier to: '+text)
 
+def callback_get_speciaalbier(bot, update):
+	text = getSpeciaalbierText()
+	if text = "":
+		text = "Vandaag hebben we geen speciaalbier op de tap :("
+	bot.sendMessage(chat_id=update.message.chat_id, text=text)
 
 # Main function to set a weekly reminder
 def callback_reminder_weekly(bot, update, job_queue, args):
@@ -135,6 +142,9 @@ u.dispatcher.add_handler(start_test_handler)
 
 set_speciaalbier_handler = CommandHandler('setSpeciaal', callback_set_speciaalbier, pass_args=True)
 u.dispatcher.add_handler(set_speciaalbier_handler)
+
+get_speciaalbier_handler = CommandHandler('speciaalbier', callback_get_speciaalbier)
+u.dispatcher.add_handler(get_speciaalbier_handler)
 
 get_chatinfo_handler = CommandHandler('getInfo', callback_get_chatinfo)
 u.dispatcher.add_handler(get_chatinfo_handler)
