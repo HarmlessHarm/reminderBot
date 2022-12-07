@@ -1,5 +1,5 @@
 appdirs==1.4.3
-certifi==2017.1.23
+certifi==2022.12.7
 future==0.16.0
 google-api-python-client==1.6.4
 httplib2==0.10.3
